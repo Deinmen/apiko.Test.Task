@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Arvo|Pacifico&display=swap" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <title>Film DB</title>
+</head>
+<body>
+<img id='logo' src="img/logo.png" alt="logo">
+<div id="divFormForSearch">
+    <form>
+        <input id="search" placeholder="Type film name here" type="text">
+        <input id="submit" value="Search" type="submit" onclick="runSearch(); return false;">
+    </form>
+    <ul id="searchUl">
+    </ul>
+</div>
+
+<div class="border" id="film">
+    <h2>Trend Films:</h2>
+    <ul id="filmUl"></ul>
+</div>
+<div class="border" id="serials">
+    <h2>Trend Serials:</h2>
+    <ul id="serialsUl"></ul>
+</div>
+<script src="js/javaScript.js"></script>
+</body>
+</html>

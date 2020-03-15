@@ -1,0 +1,89 @@
+h2 {
+    font-family: 'Pacifico', cursive;
+}
+
+ul {
+    font-family: 'Arvo', serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+form {
+    position: relative;
+    width: 300px;
+    margin: 0 auto;
+}
+
+#divFormForSearch {
+    padding: 30px 0;
+    background: #081c24;
+    color: #01d277;
+}
+
+#search {
+    width: 100%;
+    height: 42px;
+    padding-left: 10px;
+    border: 2px solid #01d277;
+    border-radius: 5px;
+    outline: none;
+    background: #081c24;
+    color: #01d277;
+}
+
+#submit {
+    position: absolute;
+    top: 0;
+    right: 0px;
+    width: 75px;
+    height: 42px;
+    border: none;
+    background: #01d277;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+#search::placeholder {
+    color: #01d277;
+}
+
+#logo {
+    padding: 10px;
+    float: right;
+    height: 10%;
+    width: 125px;
+
+}
+
+#divId {
+    background-color: #081c24;
+    color: #01d277;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+#h1Elem {
+    text-align: center;
+}
+
+#pElem {
+    text-align: center;
+}
+
+#imgElement {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.border {
+    margin-left: 3%;
+    color: #081c24;
+}

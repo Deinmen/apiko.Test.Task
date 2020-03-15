@@ -69,11 +69,7 @@ form {
     border-radius: 10px;
 }
 
-#h1Elem {
-    text-align: center;
-}
-
-#pElem {
+#h1Elem, #h1OfRec {
     text-align: center;
 }
 
@@ -86,4 +82,10 @@ form {
 .border {
     margin-left: 3%;
     color: #081c24;
+}
+p {
+    text-align: center;
+}
+.rec {
+    font-size: 80%;
 }

@@ -9,6 +9,8 @@ let dataResultArr;
 let titleOfItem;
 let poster;
 let description;
+let originIdOfElement;
+let typeMorT;
 
 // створення лі трендових фільмів
 fetch(baseURL + 'trending/movie/day?api_key=' + ApiKey)
@@ -59,8 +61,10 @@ elementUlF.addEventListener('click', function (element) {
             return resp.json()
         })
         .then(data => {
+            typeMorT = 'movie';
+            originIdOfElement = data.results[ListItemId].id;
             titleOfItem = data.results[ListItemId].original_title;
-            createDivOnClick(data, ListItemId, idElementByTarget, titleOfItem);
+            createDivOnClick(data, ListItemId, idElementByTarget, titleOfItem, originIdOfElement, typeMorT);
         })
         .catch(error => {
                 console.log('ListenerFilm error ' + error.message)
@@ -77,8 +81,10 @@ elementUlS.addEventListener('click', function (element) {
             return resp.json()
         })
         .then(data => {
+            originIdOfElement = data.results[ListItemId].id;
             titleOfItem = data.results[ListItemId].original_name;
-            createDivOnClick(data, ListItemId, idElementByTarget, titleOfItem);
+            typeMorT = 'tv';
+            createDivOnClick(data, ListItemId, idElementByTarget, titleOfItem, originIdOfElement, typeMorT);
         })
         .catch(error => {
                 console.log('ListenerTv error ' + error.message)
@@ -96,8 +102,10 @@ elementUlSearch.addEventListener('click', function (element) {
             return resp.json()
         })
         .then(data => {
+            typeMorT = 'movie';
+            originIdOfElement = data.results[ListItemId].id;
             titleOfItem = data.results[ListItemId].original_title;
-            createDivOnClick(data, ListItemId, idElementByTarget, titleOfItem);
+            createDivOnClick(data, ListItemId, idElementByTarget, titleOfItem, originIdOfElement, typeMorT);
         })
         .catch(error => {
             console.log('ListenerSearch error ' + error.message)
@@ -136,7 +144,7 @@ let dellDiv = function (elementDiv, elementListItemById) {
     }
 }
 // функція створення діву по кліку
-let createDivOnClick = function (data, ListItemId, element, titleOfItem) {
+let createDivOnClick = function (data, ListItemId, element, titleOfItem, originIdOfElement, typeMorT) {
 
     description = data.results[ListItemId].overview;
     poster = data.results[ListItemId].poster_path;
@@ -147,6 +155,7 @@ let createDivOnClick = function (data, ListItemId, element, titleOfItem) {
     let h1Elem = document.createElement('h1');
     let pElem = document.createElement('p');
     let imgElementCreate = document.createElement('img');
+
 
     h1Elem.innerHTML = titleOfItem;
     pElem.innerHTML = description;
@@ -168,12 +177,81 @@ let createDivOnClick = function (data, ListItemId, element, titleOfItem) {
     h1Elem.setAttribute('id', 'h1Elem');
     divElem.appendChild(pElem);
     pElem.setAttribute('id', 'pElem');
+
+    if (typeMorT === 'movie') {
+        getRecommendationMovie(originIdOfElement, divElem);
+    } else {
+        getRecommendationTv(originIdOfElement, divElem);
+    }
+
+
     // переведення фокусу на li по якому клікнули, загорнутий в setTimeout для коректної роботи
     setTimeout(() => {
         document.getElementById(element).scrollIntoView({block: "start", inline: "nearest"});
     }, 25);
 
-
     // перевірка чи не створений вже контейнер, якщо так, то він видаляється
     dellDiv(elementDiv, elementListItemById);
 }
+
+
+// функція створення рекомендацій
+let getRecommendationMovie = function (originIdOfElement, divElem) {
+    fetch(baseURL + 'movie/' + originIdOfElement + '/recommendations?api_key=' + ApiKey)
+        .then(resp => {
+            return resp.json()
+        })
+        .then(data => {
+            dataResultArr = data.results;
+            let h1OfRec = document.createElement('h3');
+            h1OfRec.setAttribute('id', 'h1OfRec');
+            h1OfRec.innerHTML = 'Recommendations: '
+            divElem.appendChild(h1OfRec);
+            dataResultArr.forEach(function (item,index) {
+                if (index < 3) {
+                    let createItem = document.createElement('p');
+                    createItem.setAttribute('class', 'rec');
+                    createItem.setAttribute('alt', item.title)
+                    createItem.innerHTML = item.title;
+                    divElem.appendChild(createItem);
+                }
+            })
+
+        })
+                .catch(error => {
+                        console.log('recommendationsLi fetch error ' + error.message)
+                    }
+                );
+        }
+
+let getRecommendationTv = function (originIdOfElement, divElem) {
+    fetch(baseURL + 'tv/' + originIdOfElement + '/recommendations?api_key=' + ApiKey)
+        .then(resp => {
+            return resp.json()
+        })
+        .then(data => {
+            dataResultArr = data.results;
+            let h1OfRec = document.createElement('h3');
+            h1OfRec.setAttribute('id', 'h1OfRec');
+            h1OfRec.innerHTML = 'Recommendations: '
+            divElem.appendChild(h1OfRec);
+            dataResultArr.forEach(function (item,index) {
+                if (index < 3) {
+                    let createItem = document.createElement('p');
+                    createItem.setAttribute('class', 'rec');
+                    createItem.setAttribute('alt', item.name)
+                    createItem.innerHTML = item.name;
+                    divElem.appendChild(createItem);
+                } 
+            })
+
+        })
+        .catch(error => {
+                console.log('recommendationsLi fetch error ' + error.message)
+            }
+        );
+}
+
+
+
+
